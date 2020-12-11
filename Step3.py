@@ -89,6 +89,20 @@ class Cube:
 
                 i += 1
 
+            # '2' 을 처리하기 위해 '2'이 발견되면 전의 알파벳에 합친다.
+            i = 0
+            while True:
+
+                if i == len(command):
+                    break
+
+                if command[i] == "2":
+                    command[i - 1] = command[i - 1] + "2"
+                    del command[i]
+                    continue
+
+                i += 1
+
             # command 명령에 있는 각각의 명령 하나씩 실행하기
             for i in command:
 
@@ -98,14 +112,30 @@ class Cube:
 
                 # switch-case 문 대신에 활용
                 functions = {
-                    'U': self.UpDirLeft,
-                    'U\'': self.UpDirRight,
-                    'R': self.RightDirUp,
-                    'R\'': self.RightDirDown,
-                    'L': self.LeftDirDown,
-                    'L\'': self.LeftDirUp,
-                    'B': self.BottomDirRight,
-                    'B\'': self.BottomDirLeft
+                    'U': self.UpCW,
+                    'U\'': self.UpCCW,
+                    'U2': self.UpCW2,
+
+                    'L': self.LeftCW,
+                    'L\'': self.LeftCCW,
+                    'L2': self.LeftCW2,
+
+                    'F': self.FrontCW,
+                    'F\'': self.FrontCCW,
+                    'F2': self.FrontCW2,
+
+                    'R': self.RightCW,
+                    'R\'': self.RightCCW,
+                    'R2': self.RightCW2,
+
+                    'B': self.BackCW,
+                    'B\'': self.BackCCW,
+                    'B2': self.BackCW2,
+
+                    'D': self.DownCW,
+                    'D\'': self.DownCCW,
+                    'D2': self.DownCW2
+
                 }
 
                 func = functions[i]
@@ -113,10 +143,10 @@ class Cube:
                 func()
 
                 # 함수를 실행한 후 전체 출력
-                self.print_one_side()
+                self.print_one_side(front,Right,Left,Up,Down,Back)
                 print()
 
-    def UpDirLeft(self):
+    """def UpDirLeft(self):
 
         self.temp = copy.deepcopy(self.row1)
 
@@ -131,99 +161,61 @@ class Cube:
                 self.row1[i] = self.temp[0]
                 break
             # 한칸씩 옆으로 움직인 값을 넣어준다.
-            self.row1[i] = self.temp[i + 1]
+            self.row1[i] = self.temp[i + 1]"""
 
-    def UpDirRight(self):
+    def UpCW(self):
+        print("UpCW가 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.row1)
+    def UpCCW(self):
+        print("UpCCW가 실행되었습니다.")
 
-        # row1은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 첫번째 값은 기존의 마지막 값이 와야한다.
-            if i == 0:
-                self.row1[i] = self.temp[2]
-                continue
-            # 한칸씩 옆으로 움직인 값을 넣어준다.
-            self.row1[i] = self.temp[i - 1]
+    def UpCW2(self):
+        print("UpCW2가 실행되었습니다.")
 
-    def RightDirUp(self):
+    def LeftCW(self):
+        print("LeftCW 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.col3)
+    def LeftCCW(self):
+        print("LeftCCW 실행되었습니다.")
 
-        # col3은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 마지막 값은 기존의 첫번째 값이 와야한다.
-            if i == 2:
-                self.col3[i] = self.temp[0]
-                break
-            # 한칸씩 위로 움직인 값을 넣어준다.
-            self.col3[i] = self.temp[i + 1]
+    def LeftCW2(self):
+        print("LeftCW2 실행되었습니다.")
 
-    def RightDirDown(self):
+    def FrontCW(self):
+        print("FrontCW 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.col3)
+    def FrontCCW(self):
+        print("FrontCCW 실행되었습니다.")
 
-        # col3은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 첫번째 값은 기존의 마지막 값이 와야한다.
-            if i == 0:
-                self.col3[i] = self.temp[2]
-                continue
-            # 한칸씩 아래로 움직인 값을 넣어준다.
-            self.col3[i] = self.temp[i - 1]
+    def FrontCW2(self):
+        print("FrontCW2 실행되었습니다.")
 
-    def LeftDirDown(self):
+    def RightCW(self):
+        print("RightCW 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.col1)
+    def RightCCW(self):
+        print("RightCCW 실행되었습니다.")
 
-        # col1은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 첫번째 값은 기존의 마지막 값이 와야한다.
-            if i == 0:
-                self.col1[i] = self.temp[2]
-                continue
-            # 한칸씩 아래로 움직인 값을 넣어준다.
-            self.col1[i] = self.temp[i - 1]
+    def RightCW2(self):
+        print("RightCW2 실행되었습니다.")
 
-    def LeftDirUp(self):
+    def BackCW(self):
+        print("BackCW 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.col1)
+    def BackCCW(self):
+        print("BackCCW 실행되었습니다.")
 
-        # col1은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 마지막 값은 기존의 첫번째 값이 와야한다.
-            if i == 2:
-                self.col1[i] = self.temp[0]
-                break
-            # 한칸씩 위로 움직인 값을 넣어준다.
-            self.col1[i] = self.temp[i + 1]
+    def BackCW2(self):
+        print("BackCW2 실행되었습니다.")
 
-    def BottomDirRight(self):
+    def DownCW(self):
+        print("DownCW 실행되었습니다.")
 
-        self.temp = copy.deepcopy(self.row3)
+    def DownCCW(self):
+        print("DownCCW 실행되었습니다.")
 
-        # row3은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 첫번째 값은 기존의 마지막 값이 와야한다.
-            if i == 0:
-                self.row3[i] = self.temp[2]
-                continue
-            # 한칸씩 옆으로 움직인 값을 넣어준다.
-            self.row3[i] = self.temp[i - 1]
-
-    def BottomDirLeft(self):
-
-        self.temp = copy.deepcopy(self.row3)
-
-        # row3은 3개로 이루어져 있어서 반복을 3번 함
-        for i in range(3):
-            # 움직인 후 마지막 값은 기존의 첫번째 값이 와야한다.
-            if i == 2:
-                self.row3[i] = self.temp[0]
-                break
-            # 한칸씩 옆으로 움직인 값을 넣어준다.
-            self.row3[i] = self.temp[i + 1]
-
+    def DownCW2(self):
+        print("DownCW2 실행되었습니다.")
 
 Front = Cube(['O','O','O'],['O','O','O'],['O','O','O'])
 Right = Cube(['G','G','G'],['G','G','G'],['G','G','G'])
