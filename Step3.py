@@ -1,37 +1,55 @@
 import copy
 
-
 class Cube:
 
     # 3x3 큐브 값 입력받아 저장하기
-    def __init__(self,row1,row2,row3):
+    def __init__(self,total):
 
-        self.row1 = row1
-        self.row2 = row2
-        self.row3 = row3
+        self.total = total
 
-        self.rows = [self.row1, self.row2, self.row3]
+        self.row1 = self.total[:3]
+        self.row2 = self.total[3:6]
+        self.row3 = self.total[6:9]
 
-        self.col1 = []
-        self.col2 = []
-        self.col3 = []
+        self.col1 = [self.row1[0]] + [self.row2[0]] + [self.row3[0]]
+        self.col2 = [self.row1[1]] + [self.row2[1]] + [self.row3[1]]
+        self.col3 = [self.row1[2]] + [self.row2[2]] + [self.row3[2]]
 
-        # 큐브를 돌릴때 임시로 값을 넣어놓기 위한 리스트
-        self.temp = []
+        # 이러한 관계를 표현할 수 있어야 한다.
+        """self.row1[0] = self.col1[0]
+        self.row1[2] = self.col3[0]
+        self.row3[0] = self.col1[2]
+        self.row3[2] = self.col3[2]"""
 
-        for i in range(3):
-            self.col1 += [self.rows[i][0]]
-            self.col2 += [self.rows[i][1]]
-            self.col3 += [self.rows[i][2]]
-
-        self.cols = [self.col1, self.col2, self.col3]
     # 큐브 한쪽면 출력하기
-    def print_one_side(*args):
+    def Updating(*args):
 
         # command를 실행 후 각 면의 row와 col값이 바뀌었으니, rows와 cols를 업데이트 해줘야 이것을 이용한 출력이 제대로 된다.
         for i in args:
             i.rows = [i.row1, i.row2, i.row3]
+            # print("rows = ", i.rows)
             i.cols = [i.col1, i.col2, i.col3]
+            # print("i.col1 = ",i.col1)
+            # print()
+
+                i.col1[0] = i.row1[0]
+                i.col1[1] = i.row2[0]
+                i.col1[2] = i.row3[0]
+
+                i.col2[0] = i.row1[1]
+                i.col2[1] = i.row2[1]
+                i.col2[2] = i.row3[1]
+
+                i.col3[0] = i.row1[2]
+                i.col3[1] = i.row2[2]
+                i.col3[2] = i.row3[2]
+
+            for j in range(3):
+                i.col1[j] = i.row1[0]
+                i.col2[j] = i.row2[1]
+                i.col3[j] = i.row3[2]
+
+    def print_one_side(self,Front,Right,Left,Up,Down,Back):
 
         # 큐브 Up 출력
         for i in range(3):
@@ -172,40 +190,66 @@ class Cube:
                     func(Down,Front,Left,Right,Back)
 
                 # 함수를 실행한 후 전체 출력
+                self.Updating(Front,Right,Left,Up,Down,Back)
                 self.print_one_side(Front,Right,Left,Up,Down,Back)
                 print()
 
     def UpCW(self,Up,Front,Left,Right,Back):
         print("UpCW가 실행되었습니다.")
         # 윗면이 시계방향으로 바뀐다.
-        Up.temp = Up.col3
-        Up.col3 = Up.row1
-        Up.row1 = Up.col1
-        Up.col1 = Up.row3
-        Up.row3 = Up.temp
+        Up.row1, Up.col3, Up.row3, Up.col1 = Up.col1, Up.row1, Up.col3, Up.row3
+        self.Updating(Front, Right, Left, Up, Back)
+        #옆면이 시계방향으로 바뀐다.
+        Front.row1, Left.row1, Back.row1, Right.row1 = Right.row1, Front.row1, Left.row1, Back.row1
+        # self.Updating(Front, Right, Left, Up, Back)
 
-        #아랫면 빼고 row1이 시계방향으로 바뀐다.
-        Front.temp = Front.row1
-        Front.row1 = Right.row1
-        Right.row1 = Back.row1
-        Back.row1 = Left.row1
-        Left.row1 = Front.temp
-        print("Front.row1 = ",Front.row1)
-
+        print("Left.row1 = ",Left.row1)
+        print("Left.col1 = ",Left.col1)
+        print("Front.col1 = ", Front.col1)
     def UpCCW(self,Up,Front,Left,Right,Back):
         print("UpCCW가 실행되었습니다.")
+        # 윗면이 반시계방향으로 바뀐다.
+        Up.row1, Up.col3, Up.row3, Up.col1 = Up.col3, Up.row3, Up.col1, Up.row1
+
+        # 옆면이 반시계방향으로 바뀐다.
+        Front.row1, Left.row1, Back.row1, Right.row1 = Left.row1, Back.row1, Right.row1, Front.row1
 
     def UpCW2(self,Up,Front,Left,Right,Back):
         print("UpCW2가 실행되었습니다.")
+        # 윗면이 바뀌는 경우
+        Up.row1, Up.col3, Up.row3, Up.col1 = Up.row3, Up.col1, Up.row1, Up.col3
+
+        # 옆면들이 바뀌는 경우
+        Front.row1, Left.row1, Back.row1, Right.row1 = Back.row1, Right.row1, Front.row1, Left.row1
 
     def LeftCW(self,Up,Front,Left,Down,Back):
+        # print("Left.row1 = ", Left.row1)
+        print("Left.col1 = ", Left.col1)
         print("LeftCW 실행되었습니다.")
+        # 왼쪽 면이 바뀌는 경우
+        Left.row1, Left.col3, Left.row3, Left.col1 = Left.col1, Left.row1, Left.col3, Left.row3
+        # print("Left.row1 = ", Left.row1)
+
+        # 왼쪽면을 기준으로 옆면들이 바뀌는 경우
+        Up.col1, Front.col1, Down.col1, Back.col1 = Back.col1, Up.col1, Front.col1, Down.col1
+        # print("Up.col1 = ", Up.col1)
 
     def LeftCCW(self,Up,Front,Left,Down,Back):
         print("LeftCCW 실행되었습니다.")
+        # 왼쪽 면이 바뀌는 경우
+        Left.row1, Left.col3, Left.row3, Left.col1 = Left.col3, Left.row3, Left.col1, Left.row1
+
+        # 왼쪽면을 기준으로 옆면들이 바뀌는 경우
+        Up.col1, Front.col1, Down.col1, Back.col1 = Front.col1, Down.col1, Back.col1, Up.col1
+
 
     def LeftCW2(self,Up,Front,Left,Down,Back):
         print("LeftCW2 실행되었습니다.")
+        # 왼쪽 면이 바뀌는 경우
+        Left.row1, Left.col3, Left.row3, Left.col1 = Left.row3, Left.col1, Left.row1, Left.col3
+
+        # 왼쪽면을 기준으로 옆면들이 바뀌는 경우
+        Up.col1, Front.col1, Down.col1, Back.col1 = Down.col1, Back.col1, Up.col1, Front.col1
 
     def FrontCW(self,Up,Front,Left,Right,Down):
         print("FrontCW 실행되었습니다.")
@@ -243,12 +287,12 @@ class Cube:
     def DownCW2(self,Down,Front,Left,Right,Back):
         print("DownCW2 실행되었습니다.")
 
-Front = Cube(['O','O','O'],['O','O','O'],['O','O','O'])
-Right = Cube(['G','G','G'],['G','G','G'],['G','G','G'])
-Left = Cube(['W','W','W'],['W','W','W'],['W','W','W'])
-Up = Cube(['B','B','B'],['B','B','B'],['B','B','B'])
-Down = Cube(['R','R','R'],['R','R','R'],['R','R','R'])
-Back = Cube(['Y','Y','Y'],['Y','Y','Y'],['Y','Y','Y'])
+Front = Cube(['O','O','O','O','O','O','O','O','O'])
+Right = Cube(['G','G','G','G','G','G','G','G','G'])
+Left = Cube(['W','W','W','W','W','W','W','W','W'])
+Up = Cube(['B','B','B','B','B','B','B','B','B'])
+Down = Cube(['R','R','R','R','R','R','R','R','R'])
+Back = Cube(['Y','Y','Y','Y','Y','Y','Y','Y','Y'])
 
 Main = Cube([9,9,9],[9,9,9],[9,9,9])
 Main.start(Front,Right,Left,Up,Down,Back)
