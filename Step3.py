@@ -189,56 +189,78 @@ class Cube:
         Right.total[0], Right.total[1], Right.total[2] = Back.temp[0],Back.temp[1],Back.temp[2]
         Back.total[0], Back.total[1], Back.total[2] = Left.temp[0],Left.temp[1],Left.temp[2]
 
-    def UpCCW(self,Up,Front,Left,Right,Back):
+    def UpCCW(self,Up,Left,Front,Right,Back):
         print("UpCCW가 실행되었습니다.")
+        # Up면의 시계방향 변경
+        Up.total[2], Up.total[5], Up.total[8] = Up.temp[8], Up.temp[7], Up.temp[6]
+        Up.total[6], Up.total[7], Up.total[8] = Up.temp[0], Up.temp[3], Up.temp[6]
+        Up.total[0], Up.total[3], Up.total[6] = Up.temp[2], Up.temp[1], Up.temp[0]
+        Up.total[0], Up.total[1], Up.total[2] = Up.temp[2], Up.temp[5], Up.temp[8]
 
-    def UpCW2(self,Up,Front,Left,Right,Back):
+        # print("Back.temp[0], Back.temp[1], Back.temp[2] = ",Back.temp[0], Back.temp[1], Back.temp[2])
+        Left.total[0], Left.total[1], Left.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
+        Front.total[0], Front.total[1], Front.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
+        Right.total[0], Right.total[1], Right.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
+        Back.total[0], Back.total[1], Back.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
+
+    def UpCW2(self,Up,Left,Front,Right,Back):
         print("UpCW2가 실행되었습니다.")
+        # Up면의 시계방향 180도 회전
+        Up.total[2], Up.total[5], Up.total[8] = Up.temp[6], Up.temp[3], Up.temp[0]
+        Up.total[6], Up.total[7], Up.total[8] = Up.temp[2], Up.temp[1], Up.temp[0]
+        Up.total[0], Up.total[3], Up.total[6] = Up.temp[8], Up.temp[5], Up.temp[2]
+        Up.total[0], Up.total[1], Up.total[2] = Up.temp[8], Up.temp[7], Up.temp[6]
 
-    def LeftCW(self,Up,Front,Left,Down,Back):
+        # 앞의 객체의 반대 객체를 넣으면 된다. 180도 회전이니.
+        Left.total[0], Left.total[1], Left.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
+        Front.total[0], Front.total[1], Front.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
+        Right.total[0], Right.total[1], Right.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
+        Back.total[0], Back.total[1], Back.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
+
+    def LeftCW(self,Up,Left,Front,Back,Down):
 
         print("LeftCW 실행되었습니다.")
 
-    def LeftCCW(self,Up,Front,Left,Down,Back):
+    def LeftCCW(self,Up,Left,Front,Back,Down):
         print("LeftCCW 실행되었습니다.")
 
-    def LeftCW2(self,Up,Front,Left,Down,Back):
+    def LeftCW2(self,Up,Left,Front,Back,Down):
         print("LeftCW2 실행되었습니다.")
 
-    def FrontCW(self,Up,Front,Left,Right,Down):
+    def FrontCW(self,Up,Left,Front,Right,Down):
         print("FrontCW 실행되었습니다.")
 
-    def FrontCCW(self,Up,Front,Left,Right,Down):
+    def FrontCCW(self,Up,Left,Front,Right,Down):
         print("FrontCCW 실행되었습니다.")
 
-    def FrontCW2(self,Up,Front,Left,Right,Down):
+    def FrontCW2(self,Up,Left,Front,Right,Down):
         print("FrontCW2 실행되었습니다.")
 
-    def RightCW(self,Up,Front,Down,Right,Back):
+    def RightCW(self,Up,Front,Right,Back,Down):
         print("RightCW 실행되었습니다.")
 
-    def RightCCW(self,Up,Front,Down,Right,Back):
+    def RightCCW(self,Up,Front,Right,Back,Down):
         print("RightCCW 실행되었습니다.")
 
-    def RightCW2(self,Up,Front,Down,Right,Back):
+    def RightCW2(self,Up,Front,Right,Back,Down):
         print("RightCW2 실행되었습니다.")
 
-    def BackCW(self,Up,Down,Left,Right,Back):
+    def BackCW(self,Up,Left,Right,Back,Down):
         print("BackCW 실행되었습니다.")
 
-    def BackCCW(self,Up,Down,Left,Right,Back):
+    def BackCCW(self,Up,Left,Right,Back,Down):
         print("BackCCW 실행되었습니다.")
 
-    def BackCW2(self,Up,Down,Left,Right,Back):
+    def BackCW2(self,Up,Left,Right,Back,Down):
         print("BackCW2 실행되었습니다.")
 
-    def DownCW(self,Down,Front,Left,Right,Back):
+    def DownCW(self,Left,Front,Right,Back,Down):
         print("DownCW 실행되었습니다.")
 
-    def DownCCW(self,Down,Front,Left,Right,Back):
+    def DownCCW(self,Left,Front,Right,Back,Down):
         print("DownCCW 실행되었습니다.")
 
-    def DownCW2(self,Down,Front,Left,Right,Back):
+    def DownCW2(self,Left,Front,Right,Back,Down):
         print("DownCW2 실행되었습니다.")
 
 Front = Cube(['O','O','O','O','O','O','O','O','O'])
