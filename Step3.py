@@ -6,9 +6,11 @@ class Cube:
     def __init__(self,total):
 
         self.total = total
+        self.temp = copy.deepcopy(total)
+
         self.index = 0
         self.rows = []
-        print("total = ",self.total)
+        # print("total = ",self.total)
 
         # 이러한 관계를 표현할 수 있어야 한다.
         """self.row1[0] = self.col1[0]
@@ -16,15 +18,19 @@ class Cube:
         self.row3[0] = self.col1[2]
         self.row3[2] = self.col3[2]"""
 
+    def update_temp(*args):
+
+        for i in args:
+            i.temp = copy.deepcopy(i.total)
+
     def make_rows(self):
 
         self.rows.clear()
+        self.index = 0
 
         for i in range(3):
             self.rows.append(self.total[self.index:self.index+3])
             self.index += 3
-
-        self.index = 0
 
     def print_all_side(*args):
 
@@ -142,34 +148,46 @@ class Cube:
 
                 # command가 Up과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'U' in i:
-                    func(Up,Front,Left,Right,Back)
+                    func(Up,Left,Front,Right,Back)
 
                 # command가 Left과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'L' in i:
-                    func(Up,Front,Left,Down,Back)
+                    func(Up,Left,Front,Back,Down)
 
                 # command가 Front과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'F' in i:
-                    func(Up,Front,Left,Right,Down)
+                    func(Up,Left,Front,Right,Down)
 
                 # command가 Right과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'R' in i:
-                    func(Up,Front,Down,Right,Back)
+                    func(Up,Front,Right,Back,Down)
 
                 # command가 Back과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'B' in i:
-                    func(Up,Down,Left,Right,Back)
+                    func(Up,Left,Right,Back,Down)
 
                 # command가 Down과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
                 if 'D' in i:
-                    func(Down,Front,Left,Right,Back)
+                    func(Left,Front,Right,Back,Down)
 
                 # 함수를 실행한 후 전체 출력
-                # self.print_one_side(Front,Right,Left,Up,Down,Back)
-                print()
+                self.print_all_side(Up,Left,Front,Right,Back,Down)
+                # 현재 값으로 temp를 update 하기
+                self.update_temp(Up,Left,Front,Right,Back,Down)
 
-    def UpCW(self,Up,Front,Left,Right,Back):
+
+    def UpCW(self,Up,Left,Front,Right,Back):
         print("UpCW가 실행되었습니다.")
+        # Up면의 시계방향 변경
+        Up.total[2], Up.total[5], Up.total[8] = Up.temp[0], Up.temp[1], Up.temp[2]
+        Up.total[6], Up.total[7], Up.total[8] = Up.temp[8], Up.temp[5], Up.temp[2]
+        Up.total[0], Up.total[3], Up.total[6] = Up.temp[6], Up.temp[7], Up.temp[8]
+        Up.total[0], Up.total[1], Up.total[2] = Up.temp[6], Up.temp[3], Up.temp[0]
+
+        Left.total[0],Left.total[1],Left.total[2] = Front.temp[0],Front.temp[1],Front.temp[2]
+        Front.total[0], Front.total[1], Front.total[2] = Right.temp[0],Right.temp[1],Right.temp[2]
+        Right.total[0], Right.total[1], Right.total[2] = Back.temp[0],Back.temp[1],Back.temp[2]
+        Back.total[0], Back.total[1], Back.total[2] = Left.temp[0],Left.temp[1],Left.temp[2]
 
     def UpCCW(self,Up,Front,Left,Right,Back):
         print("UpCCW가 실행되었습니다.")
