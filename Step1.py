@@ -28,13 +28,16 @@ if n < 0:
 
 
 # 왼쪽 방향으로 밀어내는 경우
+# 잘린 후부터 먼저 입력하고 뒤에 잘린 부분을 붙인다.
 if direct == 'left':
     for i in range(n, len(word)):
         print(word[i], end = '')
 
     for j in range(n):
         print(word[j], end = '')
+
 # 오른쪽 방향으로 밀어내는 경우
+# 잘리는 만큼 먼저 입력하고 나머질 입력한다.
 else:
     for i in range(len(word)-n, len(word)):
         print(word[i], end = '')
