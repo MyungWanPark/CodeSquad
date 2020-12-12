@@ -175,52 +175,106 @@ class Cube:
                 # 현재 값으로 temp를 update 하기
                 self.update_temp(Up,Left,Front,Right,Back,Down)
 
+    # 기준면을 윗면으로 둔다.+ 시계방향
+    def UPPER_CW(self,UPPER):
+
+        UPPER.total[2], UPPER.total[5], UPPER.total[8] = UPPER.temp[0], UPPER.temp[1], UPPER.temp[2]
+        UPPER.total[6], UPPER.total[7], UPPER.total[8] = UPPER.temp[8], UPPER.temp[5], UPPER.temp[2]
+        UPPER.total[0], UPPER.total[3], UPPER.total[6] = UPPER.temp[6], UPPER.temp[7], UPPER.temp[8]
+        UPPER.total[0], UPPER.total[1], UPPER.total[2] = UPPER.temp[6], UPPER.temp[3], UPPER.temp[0]
+
+    # 기준면을 윗면으로 둔다.+ 반시계방향
+    def UPPER_CCW(self, UPPER):
+
+        UPPER.total[2], UPPER.total[5], UPPER.total[8] = UPPER.temp[8], UPPER.temp[7], UPPER.temp[6]
+        UPPER.total[6], UPPER.total[7], UPPER.total[8] = UPPER.temp[0], UPPER.temp[3], UPPER.temp[6]
+        UPPER.total[0], UPPER.total[3], UPPER.total[6] = UPPER.temp[2], UPPER.temp[1], UPPER.temp[0]
+        UPPER.total[0], UPPER.total[1], UPPER.total[2] = UPPER.temp[2], UPPER.temp[5], UPPER.temp[8]
+
+    # 기준면을 윗면으로 둔다.+ 시계방향
+    def UPPER_CW2(self,UPPER):
+
+        UPPER.total[0], UPPER.total[1], UPPER.total[2] = UPPER.temp[8], UPPER.temp[7], UPPER.temp[6]
+        UPPER.total[2], UPPER.total[5], UPPER.total[8] = UPPER.temp[6], UPPER.temp[3], UPPER.temp[0]
+        UPPER.total[8], UPPER.total[7], UPPER.total[6] = UPPER.temp[0], UPPER.temp[1], UPPER.temp[2]
+        UPPER.total[6], UPPER.total[3], UPPER.total[0] = UPPER.temp[2], UPPER.temp[5], UPPER.temp[8]
+
+    # 기준면이 윗면일때 나머지 옆면들 + 시계방향
+    def SIDES_CW(self,Left_,Front_,Right_,Back_,Left_arr,Front_arr,Right_arr,Back_arr):
+
+        Left_.total[Left_arr[0]], Left_.total[Left_arr[1]], Left_.total[Left_arr[2]] = Front_.temp[Front_arr[0]], Front_.temp[Front_arr[1]], Front_.temp[Front_arr[2]]
+        Front_.total[Front_arr[0]], Front_.total[Front_arr[1]], Front_.total[Front_arr[2]] = Right_.temp[Right_arr[0]], Right_.temp[Right_arr[1]], Right_.temp[Right_arr[2]]
+        Right_.total[Right_arr[0]], Right_.total[Right_arr[1]], Right_.total[Right_arr[2]] = Back_.temp[Back_arr[0]], Back_.temp[Back_arr[1]], Back_.temp[Back_arr[2]]
+        Back_.total[Back_arr[0]], Back_.total[Back_arr[1]], Back_.total[Back_arr[2]] = Left_.temp[Left_arr[0]], Left_.temp[Left_arr[1]], Left_.temp[Left_arr[2]]
+
+    # 기준면이 윗면일때 나머지 옆면들 + 반시계방향
+    def SIDES_CCW(self, Left_, Front_, Right_, Back_,Left_arr,Front_arr,Right_arr,Back_arr):
+
+        Left_.total[Left_arr[0]], Left_.total[Left_arr[1]], Left_.total[Left_arr[2]] = Back_.temp[Back_arr[0]], Back_.temp[Back_arr[1]], Back_.temp[Back_arr[2]]
+        Front_.total[Front_arr[0]], Front_.total[Front_arr[1]], Front_.total[Front_arr[2]] = Left_.temp[Left_arr[0]], Left_.temp[Left_arr[1]], Left_.temp[Left_arr[2]]
+        Right_.total[Right_arr[0]], Right_.total[Right_arr[1]], Right_.total[Right_arr[2]] = Front_.temp[Front_arr[0]], Front_.temp[Front_arr[1]], Front_.temp[Front_arr[2]]
+        Back_.total[Back_arr[0]], Back_.total[Back_arr[1]], Back_.total[Back_arr[2]] = Right_.temp[Right_arr[0]], Right_.temp[Right_arr[1]], Right_.temp[Right_arr[2]]
+
+    # 기준면이 윗면일때 나머지 옆면들 + 시계방향 180도 회전
+    def SIDES_CW2(self, Left_, Front_, Right_, Back_, Left_arr, Front_arr, Right_arr, Back_arr):
+
+        Left_.total[Left_arr[0]], Left_.total[Left_arr[1]], Left_.total[Left_arr[2]] = Right_.temp[Right_arr[0]], Right_.temp[Right_arr[1]], Right_.temp[Right_arr[2]]
+        Front_.total[Front_arr[0]], Front_.total[Front_arr[1]], Front_.total[Front_arr[2]] = Back_.temp[Back_arr[0]], Back_.temp[Back_arr[1]], Back_.temp[Back_arr[2]]
+        Right_.total[Right_arr[0]], Right_.total[Right_arr[1]], Right_.total[Right_arr[2]] = Left_.temp[Left_arr[0]], Left_.temp[Left_arr[1]], Left_.temp[Left_arr[2]]
+        Back_.total[Back_arr[0]], Back_.total[Back_arr[1]], Back_.total[Back_arr[2]] = Front_.temp[Front_arr[0]], Front_.temp[Front_arr[1]], Front_.temp[Front_arr[2]]
 
     def UpCW(self,Up,Left,Front,Right,Back):
         print("UpCW가 실행되었습니다.")
         # Up면의 시계방향 변경
-        Up.total[2], Up.total[5], Up.total[8] = Up.temp[0], Up.temp[1], Up.temp[2]
-        Up.total[6], Up.total[7], Up.total[8] = Up.temp[8], Up.temp[5], Up.temp[2]
-        Up.total[0], Up.total[3], Up.total[6] = Up.temp[6], Up.temp[7], Up.temp[8]
-        Up.total[0], Up.total[1], Up.total[2] = Up.temp[6], Up.temp[3], Up.temp[0]
+        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[0], Up.temp[1], Up.temp[2]
+        # Up.total[6], Up.total[7], Up.total[8] = Up.temp[8], Up.temp[5], Up.temp[2]
+        # Up.total[0], Up.total[3], Up.total[6] = Up.temp[6], Up.temp[7], Up.temp[8]
+        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[6], Up.temp[3], Up.temp[0]
+        self.UPPER_CW(Up)
 
-        Left.total[0],Left.total[1],Left.total[2] = Front.temp[0],Front.temp[1],Front.temp[2]
-        Front.total[0], Front.total[1], Front.total[2] = Right.temp[0],Right.temp[1],Right.temp[2]
-        Right.total[0], Right.total[1], Right.total[2] = Back.temp[0],Back.temp[1],Back.temp[2]
-        Back.total[0], Back.total[1], Back.total[2] = Left.temp[0],Left.temp[1],Left.temp[2]
+        # 기준면이 윗면일때, 나머지 4면들은 옆면이다. 이때 옆면들 각각의 ID값을 순서대로 넣어준다.
+        # Left.total[0],Left.total[1],Left.total[2] = Front.temp[0],Front.temp[1],Front.temp[2]
+        # Front.total[0], Front.total[1], Front.total[2] = Right.temp[0],Right.temp[1],Right.temp[2]
+        # Right.total[0], Right.total[1], Right.total[2] = Back.temp[0],Back.temp[1],Back.temp[2]
+        # Back.total[0], Back.total[1], Back.total[2] = Left.temp[0],Left.temp[1],Left.temp[2]
+        self.SIDES_CW(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCCW(self,Up,Left,Front,Right,Back):
         print("UpCCW가 실행되었습니다.")
         # Up면의 시계방향 변경
-        Up.total[2], Up.total[5], Up.total[8] = Up.temp[8], Up.temp[7], Up.temp[6]
-        Up.total[6], Up.total[7], Up.total[8] = Up.temp[0], Up.temp[3], Up.temp[6]
-        Up.total[0], Up.total[3], Up.total[6] = Up.temp[2], Up.temp[1], Up.temp[0]
-        Up.total[0], Up.total[1], Up.total[2] = Up.temp[2], Up.temp[5], Up.temp[8]
+        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[8], Up.temp[7], Up.temp[6]
+        # Up.total[6], Up.total[7], Up.total[8] = Up.temp[0], Up.temp[3], Up.temp[6]
+        # Up.total[0], Up.total[3], Up.total[6] = Up.temp[2], Up.temp[1], Up.temp[0]
+        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[2], Up.temp[5], Up.temp[8]
+        self.UPPER_CCW(Up)
 
-        # print("Back.temp[0], Back.temp[1], Back.temp[2] = ",Back.temp[0], Back.temp[1], Back.temp[2])
-        Left.total[0], Left.total[1], Left.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
-        Front.total[0], Front.total[1], Front.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
-        Right.total[0], Right.total[1], Right.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
-        Back.total[0], Back.total[1], Back.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
+        # Left.total[0], Left.total[1], Left.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
+        # Front.total[0], Front.total[1], Front.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
+        # Right.total[0], Right.total[1], Right.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
+        # Back.total[0], Back.total[1], Back.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
+        self.SIDES_CCW(Left, Front, Right, Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCW2(self,Up,Left,Front,Right,Back):
         print("UpCW2가 실행되었습니다.")
         # Up면의 시계방향 180도 회전
-        Up.total[2], Up.total[5], Up.total[8] = Up.temp[6], Up.temp[3], Up.temp[0]
-        Up.total[6], Up.total[7], Up.total[8] = Up.temp[2], Up.temp[1], Up.temp[0]
-        Up.total[0], Up.total[3], Up.total[6] = Up.temp[8], Up.temp[5], Up.temp[2]
-        Up.total[0], Up.total[1], Up.total[2] = Up.temp[8], Up.temp[7], Up.temp[6]
+        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[8], Up.temp[7], Up.temp[6]
+        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[6], Up.temp[3], Up.temp[0]
+        # Up.total[8], Up.total[7], Up.total[6] = Up.temp[0], Up.temp[1], Up.temp[2]
+        # Up.total[6], Up.total[3], Up.total[0] = Up.temp[2], Up.temp[5], Up.temp[8]
+        self.UPPER_CW2(Up)
 
         # 앞의 객체의 반대 객체를 넣으면 된다. 180도 회전이니.
-        Left.total[0], Left.total[1], Left.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
-        Front.total[0], Front.total[1], Front.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
-        Right.total[0], Right.total[1], Right.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
-        Back.total[0], Back.total[1], Back.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
+        # Left.total[0], Left.total[1], Left.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
+        # Front.total[0], Front.total[1], Front.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
+        # Right.total[0], Right.total[1], Right.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
+        # Back.total[0], Back.total[1], Back.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
+        self.SIDES_CW2(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def LeftCW(self,Up,Left,Front,Back,Down):
-
         print("LeftCW 실행되었습니다.")
+        self.UPPER_CW(Left)
 
+        self.SIDES_CW(Back,Down,Front,Up,[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2])
     def LeftCCW(self,Up,Left,Front,Back,Down):
         print("LeftCCW 실행되었습니다.")
 
