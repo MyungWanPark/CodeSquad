@@ -2,7 +2,7 @@ import copy
 
 class Cube:
 
-    # 3x3 큐브 값 입력받아 저장하기
+    # 3x3 큐브 값 입력받아 초기화하기
     def __init__(self,total):
 
         self.total = total
