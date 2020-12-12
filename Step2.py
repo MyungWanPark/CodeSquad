@@ -7,17 +7,16 @@ class Cube:
 
         self.total = ['R','R','W','G','C','W','G','B','B']
         self.rows = []
-        self.index = 0
         self.temp = []
 
     def make_rows(self):
 
         self.rows.clear()
-        self.index = 0
+        index = 0
 
         for i in range(3):
-            self.rows.append(self.total[self.index:self.index+3])
-            self.index += 3
+            self.rows.append(self.total[index:index+3])
+            index += 3
 
     # 큐브 한쪽면 출력하기
     def print_one_side(self):
