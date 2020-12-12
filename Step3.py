@@ -7,16 +7,7 @@ class Cube:
 
         self.total = total
         self.temp = copy.deepcopy(total)
-
-        self.index = 0
         self.rows = []
-        # print("total = ",self.total)
-
-        # 이러한 관계를 표현할 수 있어야 한다.
-        """self.row1[0] = self.col1[0]
-        self.row1[2] = self.col3[0]
-        self.row3[0] = self.col1[2]
-        self.row3[2] = self.col3[2]"""
 
     def update_temp(*args):
 
@@ -26,11 +17,11 @@ class Cube:
     def make_rows(self):
 
         self.rows.clear()
-        self.index = 0
+        index = 0
 
         for i in range(3):
-            self.rows.append(self.total[self.index:self.index+3])
-            self.index += 3
+            self.rows.append(self.total[index:index+3])
+            index += 3
 
     def print_all_side(*args):
 
@@ -70,6 +61,7 @@ class Cube:
             for j in range(3):
                 print(Down.rows[i][j], end = " ")
             print()
+
     # 큐브게임 시작하기
     def start(self,Up,Left,Front,Right,Back,Down):
 
@@ -225,49 +217,17 @@ class Cube:
 
     def UpCW(self,Up,Left,Front,Right,Back):
         print("UpCW가 실행되었습니다.")
-        # Up면의 시계방향 변경
-        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[0], Up.temp[1], Up.temp[2]
-        # Up.total[6], Up.total[7], Up.total[8] = Up.temp[8], Up.temp[5], Up.temp[2]
-        # Up.total[0], Up.total[3], Up.total[6] = Up.temp[6], Up.temp[7], Up.temp[8]
-        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[6], Up.temp[3], Up.temp[0]
         self.UPPER_CW(Up)
-
-        # 기준면이 윗면일때, 나머지 4면들은 옆면이다. 이때 옆면들 각각의 ID값을 순서대로 넣어준다.
-        # Left.total[0],Left.total[1],Left.total[2] = Front.temp[0],Front.temp[1],Front.temp[2]
-        # Front.total[0], Front.total[1], Front.total[2] = Right.temp[0],Right.temp[1],Right.temp[2]
-        # Right.total[0], Right.total[1], Right.total[2] = Back.temp[0],Back.temp[1],Back.temp[2]
-        # Back.total[0], Back.total[1], Back.total[2] = Left.temp[0],Left.temp[1],Left.temp[2]
         self.SIDES_CW(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCCW(self,Up,Left,Front,Right,Back):
         print("UpCCW가 실행되었습니다.")
-        # Up면의 시계방향 변경
-        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[8], Up.temp[7], Up.temp[6]
-        # Up.total[6], Up.total[7], Up.total[8] = Up.temp[0], Up.temp[3], Up.temp[6]
-        # Up.total[0], Up.total[3], Up.total[6] = Up.temp[2], Up.temp[1], Up.temp[0]
-        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[2], Up.temp[5], Up.temp[8]
         self.UPPER_CCW(Up)
-
-        # Left.total[0], Left.total[1], Left.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
-        # Front.total[0], Front.total[1], Front.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
-        # Right.total[0], Right.total[1], Right.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
-        # Back.total[0], Back.total[1], Back.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
         self.SIDES_CCW(Left, Front, Right, Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCW2(self,Up,Left,Front,Right,Back):
         print("UpCW2가 실행되었습니다.")
-        # Up면의 시계방향 180도 회전
-        # Up.total[0], Up.total[1], Up.total[2] = Up.temp[8], Up.temp[7], Up.temp[6]
-        # Up.total[2], Up.total[5], Up.total[8] = Up.temp[6], Up.temp[3], Up.temp[0]
-        # Up.total[8], Up.total[7], Up.total[6] = Up.temp[0], Up.temp[1], Up.temp[2]
-        # Up.total[6], Up.total[3], Up.total[0] = Up.temp[2], Up.temp[5], Up.temp[8]
         self.UPPER_CW2(Up)
-
-        # 앞의 객체의 반대 객체를 넣으면 된다. 180도 회전이니.
-        # Left.total[0], Left.total[1], Left.total[2] = Right.temp[0], Right.temp[1], Right.temp[2]
-        # Front.total[0], Front.total[1], Front.total[2] = Back.temp[0], Back.temp[1], Back.temp[2]
-        # Right.total[0], Right.total[1], Right.total[2] = Left.temp[0], Left.temp[1], Left.temp[2]
-        # Back.total[0], Back.total[1], Back.total[2] = Front.temp[0], Front.temp[1], Front.temp[2]
         self.SIDES_CW2(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def LeftCW(self,Up,Left,Front,Back,Down):
@@ -285,7 +245,6 @@ class Cube:
         self.UPPER_CW2(Left)
         self.SIDES_CW2(Back,Down,Front,Up,[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2])
 
-    ####################################여기서 부터 할 차례###############################
     def FrontCW(self,Up,Left,Front,Right,Down):
         print("FrontCW 실행되었습니다.")
         self.UPPER_CW(Front)
