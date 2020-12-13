@@ -1,4 +1,4 @@
-import copy,time
+import copy,time,sys
 
 class Cube:
 
@@ -74,119 +74,167 @@ class Cube:
 
         while True:
 
+            # self.execute_command(t1, command_count)
+
             command = list(input("CUBE> "))
 
             # '\'' 을 처리하기 위해 '\''이 발견되면 전의 알파벳에 합친다.
-            i = 0
-            while True:
-
-                if i == len(command):
-                    break
-
-                if command[i] == "'":
-                    command[i - 1] = command[i - 1] + "'"
-                    del command[i]
-                    continue
-
-                i += 1
+            command = self.HandleQuotes(command)
 
             # '2' 을 처리하기 위해 '2'이 발견되면 전의 알파벳에 합친다.
-            i = 0
-            while True:
-
-                if i == len(command):
-                    break
-
-                if command[i] == "2":
-                    command[i - 1] = command[i - 1] + "2"
-                    del command[i]
-                    continue
-
-                i += 1
+            command = self.HandleCharTwo(command)
 
             # command 명령에 있는 각각의 명령 하나씩 실행하기
             for i in command:
 
-                if i == 'Q':
-                    # 종류 시점 시간 취득
-                    t2 = time.time()
-
-                    # 동작 시간 계산
-                    elapsed_time = t2 - t1
-
-                    # 경과 시간 출력
-                    print("경과시간: ", elapsed_time)
-                    
-                    # 조작횟수 Q 포함하여 1 증가시킴
-                    command_count += 1
-
-                    print("조작갯수: ", command_count)
-                    print("이용해주셔서 감사합니다. 뚜뚜뚜.")
-
-                    return
-
-                # switch-case 문 대신에 활용
-                functions = {
-                    'U': self.UpCW,
-                    'U\'': self.UpCCW,
-                    'U2': self.UpCW2,
-
-                    'L': self.LeftCW,
-                    'L\'': self.LeftCCW,
-                    'L2': self.LeftCW2,
-
-                    'F': self.FrontCW,
-                    'F\'': self.FrontCCW,
-                    'F2': self.FrontCW2,
-
-                    'R': self.RightCW,
-                    'R\'': self.RightCCW,
-                    'R2': self.RightCW2,
-
-                    'B': self.BackCW,
-                    'B\'': self.BackCCW,
-                    'B2': self.BackCW2,
-
-                    'D': self.DownCW,
-                    'D\'': self.DownCCW,
-                    'D2': self.DownCW2
-
-                }
-
-                func = functions[i]
-                print(i)
-
-                # command가 Up과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'U' in i:
-                    func(Up,Left,Front,Right,Back)
-
-                # command가 Left과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'L' in i:
-                    func(Up,Left,Front,Back,Down)
-
-                # command가 Front과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'F' in i:
-                    func(Up,Left,Front,Right,Down)
-
-                # command가 Right과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'R' in i:
-                    func(Up,Front,Right,Back,Down)
-
-                # command가 Back과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'B' in i:
-                    func(Up,Left,Right,Back,Down)
-
-                # command가 Down과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-                if 'D' in i:
-                    func(Left,Front,Right,Back,Down)
-
-                # command 실행 후 조작 횟수 1 증가
+                # command 실행, 조작 횟수 1 증가
                 command_count += 1
 
-                # 함수를 실행한 후 전체 출력
-                self.print_all_side(Up,Left,Front,Right,Back,Down)
+                # 명령 실행
+                self.execute_command(i, t1, command_count,Up,Left,Front,Right,Back,Down)
+
                 # 현재 값으로 temp를 update 하기
                 self.update_temp(Up,Left,Front,Right,Back,Down)
+
+    def execute_command(self,i, t1,command_count,Up,Left,Front,Right,Back,Down):
+
+        isQcounted = False
+        if i == 'Q':
+
+            isQcounted = True
+
+            self.Quit(t1,command_count,isQcounted)
+            return
+
+        # switch-case 문 대신에 활용
+        functions = {
+            'U': self.UpCW,
+            'U\'': self.UpCCW,
+            'U2': self.UpCW2,
+
+            'L': self.LeftCW,
+            'L\'': self.LeftCCW,
+            'L2': self.LeftCW2,
+
+            'F': self.FrontCW,
+            'F\'': self.FrontCCW,
+            'F2': self.FrontCW2,
+
+            'R': self.RightCW,
+            'R\'': self.RightCCW,
+            'R2': self.RightCW2,
+
+            'B': self.BackCW,
+            'B\'': self.BackCCW,
+            'B2': self.BackCW2,
+
+            'D': self.DownCW,
+            'D\'': self.DownCCW,
+            'D2': self.DownCW2
+
+        }
+
+        func = functions[i]
+        print(i)
+
+        # command가 Up과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'U' in i:
+            func(Up, Left, Front, Right, Back)
+
+        # command가 Left과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'L' in i:
+            func(Up, Left, Front, Back, Down)
+
+        # command가 Front과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'F' in i:
+            func(Up, Left, Front, Right, Down)
+
+        # command가 Right과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'R' in i:
+            func(Up, Front, Right, Back, Down)
+
+        # command가 Back과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'B' in i:
+            func(Up, Left, Right, Back, Down)
+
+        # command가 Down과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
+        if 'D' in i:
+            func(Left, Front, Right, Back, Down)
+
+        # 모든 면 출력하기
+        self.print_all_side(Up,Left,Front,Right,Back,Down)
+
+        # 모든 면이 다 맞았는지 확인하기
+        if self.all_match(Up, Left, Front, Right, Back, Down):
+            print("축하합니다. 모든 면을 맞추셨습니다!!")
+            self.Quit(t1,command_count,isQcounted)
+
+    def Quit(self,t1,command_count,isQcounted):
+
+        # 종류 시점 시간 취득
+        t2 = time.time()
+
+        # 동작 시간 계산
+        elapsed_time = t2 - t1
+
+        # 경과 시간 출력
+        print("경과시간: ", elapsed_time)
+
+        if isQcounted:
+            # 조작횟수 Q 포함하여 1 증가시킴
+            command_count += 1
+
+        print("조작갯수: ", command_count)
+        print("이용해주셔서 감사합니다. 뚜뚜뚜.")
+
+        sys.exit()
+
+    def HandleQuotes(self,command):
+
+        i = 0
+
+        while True:
+
+            if i == len(command):
+                return command
+
+            if command[i] == "'":
+                command[i - 1] = command[i - 1] + "'"
+                del command[i]
+                continue
+
+            i += 1
+
+    def HandleCharTwo(self,command):
+
+        i = 0
+        while True:
+
+            if i == len(command):
+                return command
+
+            if command[i] == "2":
+                command[i - 1] = command[i - 1] + "2"
+                del command[i]
+                continue
+
+            i += 1
+
+    def all_match(*args):
+
+        count = 0
+        is_all_match = False
+
+        for i in args:
+            if i.total[0] == i.total[1] == i.total[2] == i.total[3] == i.total[4] == i.total[5] == i.total[6] == i.total[7] == i.total[8] :
+                count += 1
+
+        if count == 6:
+            is_all_match = True
+        else:
+            is_all_match = False
+
+        return is_all_match
 
     # 기준면을 윗면으로 둔다.+ 시계방향
     def UPPER_CW(self,UPPER):
@@ -333,5 +381,5 @@ Up = Cube(['B','B','B','B','B','B','B','B','B'])
 Down = Cube(['R','R','R','R','R','R','R','R','R'])
 Back = Cube(['Y','Y','Y','Y','Y','Y','Y','Y','Y'])
 
-Main = Cube([9,9,9,9,9,9,9,9,9])
+Main = Cube([1,2,3,4,5,6,7,8,9])
 Main.start(Up,Left,Front,Right,Back,Down)
