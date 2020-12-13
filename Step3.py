@@ -9,11 +9,13 @@ class Cube:
         self.temp = copy.deepcopy(total)
         self.rows = []
 
+    # temp 갱신하기
     def update_temp(*args):
 
         for i in args:
             i.temp = copy.deepcopy(i.total)
 
+    # print all side를 위한 임시로 rows 만들기
     def make_rows(self):
 
         self.rows.clear()
@@ -104,7 +106,6 @@ class Cube:
             isQcounted = True
 
             self.Quit(t1,command_count,isQcounted)
-            return
 
         # switch-case 문 대신에 활용
         functions = {
@@ -142,23 +143,23 @@ class Cube:
             func(Up, Left, Front, Right, Back)
 
         # command가 Left과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-        if 'L' in i:
+        elif 'L' in i:
             func(Up, Left, Front, Back, Down)
 
         # command가 Front과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-        if 'F' in i:
+        elif 'F' in i:
             func(Up, Left, Front, Right, Down)
 
         # command가 Right과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-        if 'R' in i:
+        elif 'R' in i:
             func(Up, Front, Right, Back, Down)
 
         # command가 Back과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-        if 'B' in i:
+        elif 'B' in i:
             func(Up, Left, Right, Back, Down)
 
         # command가 Down과 관련있는 경우, 아래와 같은 파라미터를 넘겨준다.
-        if 'D' in i:
+        elif 'D' in i:
             func(Left, Front, Right, Back, Down)
 
         # 모든 면 출력하기
