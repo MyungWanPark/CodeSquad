@@ -1,4 +1,4 @@
-import copy
+import copy,time
 
 class Cube:
 
@@ -65,6 +65,10 @@ class Cube:
     # 큐브게임 시작하기
     def start(self,Up,Left,Front,Right,Back,Down):
 
+        # 시작 시점 시간 취득
+        t1 = time.time()
+        command_count = 0
+
         self.print_all_side(Up,Left,Front,Right,Back,Down)
         print()
 
@@ -104,7 +108,21 @@ class Cube:
             for i in command:
 
                 if i == 'Q':
-                    print("Bye~")
+                    # 종류 시점 시간 취득
+                    t2 = time.time()
+
+                    # 동작 시간 계산
+                    elapsed_time = t2 - t1
+
+                    # 경과 시간 출력
+                    print("경과시간: ", elapsed_time)
+                    
+                    # 조작횟수 Q 포함하여 1 증가시킴
+                    command_count += 1
+
+                    print("조작갯수: ", command_count)
+                    print("이용해주셔서 감사합니다. 뚜뚜뚜.")
+
                     return
 
                 # switch-case 문 대신에 활용
@@ -162,6 +180,9 @@ class Cube:
                 if 'D' in i:
                     func(Left,Front,Right,Back,Down)
 
+                # command 실행 후 조작 횟수 1 증가
+                command_count += 1
+
                 # 함수를 실행한 후 전체 출력
                 self.print_all_side(Up,Left,Front,Right,Back,Down)
                 # 현재 값으로 temp를 update 하기
@@ -216,92 +237,92 @@ class Cube:
         Back_.total[Back_arr[0]], Back_.total[Back_arr[1]], Back_.total[Back_arr[2]] = Front_.temp[Front_arr[0]], Front_.temp[Front_arr[1]], Front_.temp[Front_arr[2]]
 
     def UpCW(self,Up,Left,Front,Right,Back):
-        print("UpCW가 실행되었습니다.")
+
         self.UPPER_CW(Up)
         self.SIDES_CW(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCCW(self,Up,Left,Front,Right,Back):
-        print("UpCCW가 실행되었습니다.")
+
         self.UPPER_CCW(Up)
         self.SIDES_CCW(Left, Front, Right, Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def UpCW2(self,Up,Left,Front,Right,Back):
-        print("UpCW2가 실행되었습니다.")
+
         self.UPPER_CW2(Up)
         self.SIDES_CW2(Left,Front,Right,Back,[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7,8])
 
     def LeftCW(self,Up,Left,Front,Back,Down):
-        print("LeftCW 실행되었습니다.")
+
         self.UPPER_CW(Left)
         self.SIDES_CW(Back,Down,Front,Up,[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2])
 
     def LeftCCW(self,Up,Left,Front,Back,Down):
-        print("LeftCCW 실행되었습니다.")
+
         self.UPPER_CCW(Left)
         self.SIDES_CCW(Back,Down,Front,Up,[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2])
 
     def LeftCW2(self,Up,Left,Front,Back,Down):
-        print("LeftCW2 실행되었습니다.")
+
         self.UPPER_CW2(Left)
         self.SIDES_CW2(Back,Down,Front,Up,[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2],[6,3,0,7,4,1,8,5,2])
 
     def FrontCW(self,Up,Left,Front,Right,Down):
-        print("FrontCW 실행되었습니다.")
+
         self.UPPER_CW(Front)
         self.SIDES_CW(Left,Down,Right,Up,[2,5,8,1,4,7,0,3,6],[0,1,2,3,4,5,6,7,8],[6,3,0,7,4,1,8,5,2],[8,7,6,5,4,3,2,1,0])
 
     def FrontCCW(self,Up,Left,Front,Right,Down):
-        print("FrontCCW 실행되었습니다.")
+
         self.UPPER_CCW(Front)
         self.SIDES_CCW(Left,Down,Right,Up,[2,5,8,1,4,7,0,3,6],[0,1,2,3,4,5,6,7,8],[6,3,0,7,4,1,8,5,2],[8,7,6,5,4,3,2,1,0])
 
     def FrontCW2(self,Up,Left,Front,Right,Down):
-        print("FrontCW2 실행되었습니다.")
+
         self.UPPER_CW2(Front)
         self.SIDES_CW2(Left,Down,Right,Up,[2,5,8,1,4,7,0,3,6],[0,1,2,3,4,5,6,7,8],[6,3,0,7,4,1,8,5,2],[8,7,6,5,4,3,2,1,0])
 
     def RightCW(self,Up,Front,Right,Back,Down):
-        print("RightCW 실행되었습니다.")
+
         self.UPPER_CW(Right)
         self.SIDES_CW(Front,Down,Back,Up,[2,5,8,1,4,7,0,3,6],[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[2,5,8,1,4,7,0,3,6])
 
     def RightCCW(self,Up,Front,Right,Back,Down):
-        print("RightCCW 실행되었습니다.")
+
         self.UPPER_CCW(Right)
         self.SIDES_CCW(Front,Down,Back,Up,[2,5,8,1,4,7,0,3,6],[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[2,5,8,1,4,7,0,3,6])
 
     def RightCW2(self,Up,Front,Right,Back,Down):
-        print("RightCW2 실행되었습니다.")
+
         self.UPPER_CW2(Right)
         self.SIDES_CW2(Front,Down,Back,Up,[2,5,8,1,4,7,0,3,6],[2,5,8,1,4,7,0,3,6],[6,3,0,7,4,1,8,5,2],[2,5,8,1,4,7,0,3,6])
 
     def BackCW(self,Up,Left,Right,Back,Down):
-        print("BackCW 실행되었습니다.")
+
         self.UPPER_CW(Back)
         self.SIDES_CW(Right,Down,Left,Up,[2,5,8,1,4,7,0,3,6],[8,7,6,5,4,3,2,1,0],[6,3,0,7,4,1,8,5,2],[0,1,2,3,4,5,6,7,8])
 
     def BackCCW(self,Up,Left,Right,Back,Down):
-        print("BackCCW 실행되었습니다.")
+
         self.UPPER_CCW(Back)
         self.SIDES_CCW(Right,Down,Left,Up,[2,5,8,1,4,7,0,3,6],[8,7,6,5,4,3,2,1,0],[6,3,0,7,4,1,8,5,2],[0,1,2,3,4,5,6,7,8])
 
     def BackCW2(self,Up,Left,Right,Back,Down):
-        print("BackCW2 실행되었습니다.")
+
         self.UPPER_CW2(Back)
         self.SIDES_CW2(Right,Down,Left,Up,[2,5,8,1,4,7,0,3,6],[8,7,6,5,4,3,2,1,0],[6,3,0,7,4,1,8,5,2],[0,1,2,3,4,5,6,7,8])
 
     def DownCW(self,Left,Front,Right,Back,Down):
-        print("DownCW 실행되었습니다.")
+
         self.UPPER_CW(Down)
         self.SIDES_CW(Left,Back,Right,Front,[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0])
 
     def DownCCW(self,Left,Front,Right,Back,Down):
-        print("DownCCW 실행되었습니다.")
+
         self.UPPER_CCW(Down)
         self.SIDES_CCW(Left,Back,Right,Front,[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0])
 
     def DownCW2(self,Left,Front,Right,Back,Down):
-        print("DownCW2 실행되었습니다.")
+
         self.UPPER_CW2(Down)
         self.SIDES_CW2(Left,Back,Right,Front,[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0],[8,7,6,5,4,3,2,1,0])
 

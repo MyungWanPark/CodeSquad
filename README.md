@@ -1,7 +1,9 @@
 # CodeSquad
 
-## step3
-## 루빅스 큐브 구현하기
+## step3 루빅스 큐브 구현하기
+## 동작 단계
+1.
+
 
 ```python
 import copy
