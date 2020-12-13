@@ -1,4 +1,4 @@
-import copy
+import copy,sys
 
 class Cube:
     
@@ -39,55 +39,67 @@ class Cube:
             command = list(input("CUBE> "))
 
             # '\'' 을 처리하기 위해 '\''이 발견되면 전의 알파벳에 합친다.
-            i = 0
-            while True:
-
-                if i == len(command):
-                    break
-
-                if command[i] == "'":
-                    command[i - 1] = command[i - 1] + "'"
-                    del command[i]
-                    continue
-
-                i += 1
+            command = self.HandleQuotes(command)
 
             # command 명령에 있는 각각의 명령 하나씩 실행하기
             for i in command:
 
-                if i == 'Q':
-                    print("Bye~")
-                    return
-
-                # switch-case 문 대신에 활용
-                functions = {
-                    'U': self.UpDirLeft,
-                    'U\'': self.UpDirRight,
-                    'R': self.RightDirUp,
-                    'R\'': self.RightDirDown,
-                    'L': self.LeftDirDown,
-                    'L\'': self.LeftDirUp,
-                    'B': self.BottomDirRight,
-                    'B\'': self.BottomDirLeft
-                }
-
-                func = functions[i]
-                print(i)
-                # 함수 실행 전, 현재의 total을 temp로 복사한다.
-                self.temp = copy.deepcopy(self.total)
-                func()
+                self.execute_command(i)
 
                 # 함수를 실행한 후 전체 출력
                 self.print_one_side()
                 print()
 
+    def execute_command(self, i):
+
+        if i == 'Q':
+
+            print("Bye~")
+            sys.exit()
+
+        # switch-case 문 대신에 활용
+        functions = {
+            'U': self.UpDirLeft,
+            'U\'': self.UpDirRight,
+            'R': self.RightDirUp,
+            'R\'': self.RightDirDown,
+            'L': self.LeftDirDown,
+            'L\'': self.LeftDirUp,
+            'B': self.BottomDirRight,
+            'B\'': self.BottomDirLeft
+        }
+
+        func = functions[i]
+        print(i)
+
+        # 함수 실행 전, 현재의 total을 temp로 복사한다.
+        self.temp = copy.deepcopy(self.total)
+        func()
+
+    def HandleQuotes(self, command):
+
+        i = 0
+
+        while True:
+
+            if i == len(command):
+                return command
+
+            if command[i] == "'":
+                command[i - 1] = command[i - 1] + "'"
+                del command[i]
+                continue
+
+            i += 1
+
+    # 맨 윗 행을 왼쪽으로 움직일때.
     def UpDirLeft(self):
 
         self.total[0],self.total[1],self.total[2] = self.temp[1],self.temp[2],self.temp[0]
 
     def UpDirRight(self):
 
-        self.total[0], self.total[1], self.total[2] = self.temp[1], self.temp[2], self.temp[0]
+        self.total[0], self.total[1], self.total[2] = self.temp[2], self.temp[0], self.temp[1]
 
     def RightDirUp(self):
 
